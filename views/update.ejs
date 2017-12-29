@@ -1,0 +1,104 @@
+<%- include header.ejs %>
+	<section class="header_text sub">
+		<h4><span>Update</span></h4>
+	</section>
+			<section class="main-content">									
+                <div class="row">
+                            <div class="span4">
+                            <select name="action" id="action" onChange="window.location.href=this.value">
+                              <option value="/admin">--Action--</option>
+                              <option value="/createpage">Create</option>
+                              <option value="/retreivepage">Retrieve</option>
+                              <option value="/updatepage" selected="selected">Update</option>
+                              <option value="/deletepage">Delete</option>
+                            </select>
+                            </div>
+                <div class="row">
+                            <div class="span5">
+                                <address>
+                                    <h5><strong>Match On:</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <select name="action2" id="action2" class="span3">
+                                        <option value="pid">Product ID</option>
+                                        <option value="title">Title</option>
+                                    </select>
+                                    </h5>
+                                    <h5><strong>Input:</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" class="span3" id="inputv" placeholder="Enter item id">
+                                    </h5>
+									<h5><strong>Title:</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" class="span3" id="title" placeholder="Enter item title"></h5>
+									<h5><strong>Tokens:</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" class="span3" id="tokens" placeholder="Enter token value"></h5>
+									<h5><strong>Availability:</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" class="span3" id="qty" placeholder="Enter available quantity"></h5>
+									<h5><strong>TAGS:</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" class="span3" id="tags" placeholder="Enter item tags"></h3>
+                                    <h5><strong>Description:</strong></h5>
+                                    <textarea type="text" class="span6" cols="100" rows="10" id="descrpt" placeholder="Enter description"></textarea>
+                                </address>
+                            </div>
+                </div>
+                <button class="btn btn-inverse span2 pull-right" type="submit" id ="confirm">SUBMIT</button>   <br/><br/>                  
+  </div>
+                </section>
+</div>
+<script>
+    function sendAjax() {
+        var match = $('#action2 option:selected').val();
+        if (match == 'pid'){
+            var ser = ["pid",$('input#in').val()]
+        }
+        else if (match == 'title'){
+            var ser = ["title",$('input#in').val()]
+        }
+        
+        udata = {
+            title:$("input#title").val(),
+            cost:$("input#tokens").val(),
+            qty:$("input#qty").val(),
+            description:$("textarea#descrpt").val(),
+            inputval:$("input#inputv").val(),
+            tags:$("input#tags").val(),
+            match: ser,
+        }
+        
+        $.ajax({
+            data: udata,
+            url: '/update',
+            type: "GET",
+            success: function(result){
+                if (result == 1) {
+                    alert("Successfully Updated!");
+                    location.reload();
+                }
+                else if (result == -2){
+                    alert("Please provide correct information");
+                    location.reload();
+                }
+                else if (result == 0){
+                    alert("No matched information.");
+                    location.reload();
+                }
+                else if (result == -3){
+                    alert("Please provide at least one attribute to update.");
+                    location.reload();
+                }
+            }
+        });
+    }
+    
+$("#confirm").on("click", function() {
+    if (!(!$("input#inputv").val().trim())) {
+        if (confirm("Are you sure you want to update the product?") == true) {
+            if ($('#action2 option:selected').val() == 'pid'){
+                if (($("input#inputv").val().length == 12) || ($("input#inputv").val().length == 24)) {
+                    sendAjax();
+                    }
+                else alert ("No matched information.");
+                }
+                else sendAjax();
+            }
+            else console.log("Please click OK.");
+        }
+        else alert("Please input matching value!");
+    });
+</script>
+
+<%- include footer.ejs %>
+
+                

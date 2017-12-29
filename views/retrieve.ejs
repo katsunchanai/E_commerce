@@ -1,0 +1,91 @@
+<%- include header.ejs %>
+	<section class="header_text sub">
+		<h4><span>Retrieve</span></h4>
+	</section>
+			<section class="main-content">									
+                <div class="row">
+                            <div class="span4">
+                            <select name="action" id="action" onChange="window.location.href=this.value">
+                              <option value="/admin">--Action--</option>
+                              <option value="/createpage">Create</option>
+                              <option value="/retreivepage" selected="selected">Retrieve</option>
+                              <option value="/updatepage">Update</option>
+                              <option value="/deletepage">Delete</option>
+                            </select>
+                            </div>
+                <div class="row">
+                            <div class="span5">
+                                <address>
+                                    <div class="row">
+                                    <h5><strong> Match on:</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <select name="actionx" id="actionx" class="span3">
+                                        <option value="title">Title</option>
+                                        <option value="pid">Product ID</option>
+                                    </select>
+                                    </h5>
+									<h5><strong>Title / ProductID</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" class="span3" id="title" value="" placeholder="Enter title or product id"></h5>
+                                    </div>
+                                    <div class="row">
+									<h5><strong>Tokens</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" class="span1" id="cost" value="" placeholder="Enter token value">&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <select name="action2" id="action2" class="span2">
+                                        <option value="$lt">Less than</option>
+                                        <option value="$eq" selected="selected">Equal to</option>
+                                        <option value="$gt">Larger than</option>
+                                        </select>
+                                    </h5>
+                                    </div>
+                                    <div class="row">
+									<h5><strong>Availability</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" class="span1" id="qty" value ="" placeholder="Enter available quantity">&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <select name="action3" id="action3" class="span2">
+                                        <option value="$lt">Less than</option>
+                                        <option value="$eq" selected="selected">Equal to</option>
+                                        <option value="$gt">Larger than</option>
+                                    </select>
+                                        </h5>
+                                        <h5><strong>TAGS</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" class="span3" id="tags" value ="" placeholder="Enter tags"></h5>
+                                    </div>
+                                </address>
+                            </div>
+                </div>
+                <button class="btn btn-inverse span2 pull-right" type="submit" id="confirm">SUBMIT</button>      <br/><br/>                
+  </div>
+                </section>
+</div>
+<script>
+    
+    function sendAjax() {
+        var rdata = {
+            tori : $('#actionx option:selected').val(),
+            title: $("input#title").val(),
+            cost: {cri:$('#action2 option:selected').val(),val:$('input#cost').val()},
+            qty: {cri:$('#action3 option:selected').val(),val:$('input#qty').val()},
+            tags: $('input#tags').val()
+        };
+
+        $.ajax({
+            data: rdata,
+            url: '/re',
+            type: "GET",
+            success: function(result) {
+                if (result == -1) alert("Invalid Input!");
+                if (result == 100) window.location.replace("/adminre");
+            }
+        });
+    }
+$("#confirm").on("click", function() {
+        if (confirm("Are you sure you want to retrieve?") == true) {
+            if ($('#actionx option:selected').val() == 'pid'){
+                if (($("input#title").val().length == 12) || ($("input#title").val().length == 24)) sendAjax();
+                else alert("Invalid product ID");
+                }
+                else sendAjax();
+            }
+});
+    
+
+
+</script>
+
+<%- include footer.ejs %>
+
+                

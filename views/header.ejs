@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>CSCI 2720 Group 19</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+  <link href="/css/bootstrap-responsive.css" rel="stylesheet" type="text/css">
+  <link href="/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css">
+  <link href="/css/bootstrap.css" rel="stylesheet" type="text/css">
+  <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="/css/flexslider.css" rel="stylesheet" type="text/css">
+  <link href="/css/main.css" rel="stylesheet" type="text/css">
+  <link href="/css/jquery.fancybox.css" rel="stylesheet" type="text/css">
+  <link href="/css/bootstrappage.css" rel="stylesheet" type="text/css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="/templatejs/jquery-1.7.2.min.js"></script>
+  <script src="/templatejs/bootstrap.min.js"></script>       
+  <script src="/templatejs/superfish.js"></script>  
+  <script src="/templatejs/jquery.scrolltotop.js"></script>
+
+</head>
+<body>
+<%
+  locals.user = locals.user || "";
+%>
+    <div id="top-bar" class="container">
+      <div class="row">
+        <div class="span4">
+            <%
+                if (user == 'admin') { 
+                    %><h5 class="span8">Admin,</h5><% } 
+            %>
+            <%
+                if (user != "" && user != 'admin') { 
+                    %> <h5 class="span8"> <%=locals.user%>, <%=locals.tokens%> tokens</h5> <% } 
+            %>
+        </div>
+        <div class="span8">
+          <div class="account pull-right">
+            <ul class="user-menu">
+              <% if (user == 'admin') { %>
+                <li><a href="/admin">Admin panel</a></li>
+              <% } %>
+              <%
+                if (user != "" && user != 'admin') { 
+                    %><li><a href="/hist">History</a></li><% } 
+              %>
+              <%
+                if (user == "") { 
+                    %><li><a href="/login">Login</a></li><% } 
+              %>
+              <!-- <li><a href="/login">Login</a></li> -->
+              <li><a href="/logout">Logout</a></li>  
+              <li><a href="/listitems2">Products</a></li>   
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+        <div id="wrapper" class="container">
+      <section class="navbar main-menu">
+        <div class="navbar-inner main-menu">        
+          <a href="/" class="logo pull-left"><img src="/img/logo.png" class="site_logo" alt=""></a>
+        </div>
+      </section>
+      <section  class="homepage-slider" id="home-slider">
+        <div class="flexslider">
+          <ul class="slides">
+            <li>
+              <img src="/img/banner-1.jpg" alt="" />
+            </li>
+            <li>
+              <img src="/img/banner-2.jpg" alt="" />
+              <div class="intro">
+                <h1>Mid season sale</h1>
+                <p><span>Up to 50% Off</span></p>
+                <p><span>On selected items online and in stores</span></p>
+              </div>
+            </li>
+          </ul>
+        </div>      
+      </section>
+      <section class="header_text">
+        We stand for top quality products. Our genuine designers always design glorious clothes. 
+        <br/>Don't miss any chance to redeem.
+            </section>
+

@@ -1,0 +1,74 @@
+<%- include header.ejs %>
+	<section class="header_text sub">
+		<h4><span>Creation</span></h4>
+	</section>
+			<section class="main-content">									
+                <div class="row">
+                            <div class="span4">
+                            <select name="action" id="action" onChange="window.location.href=this.value">
+                              <option value="/admin">--Action--</option>
+                              <option value="/createpage" selected="selected">Create</option>
+                              <option value="/retreivepage">Retrieve</option>
+                              <option value="/updatepage">Update</option>
+                              <option value="/deletepage">Delete</option>
+                            </select>
+                            </div>
+                <div class="row">
+                            <div class="span7">
+                                <address>
+									<h5><strong>Title</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" class="span3" id="title" placeholder="Enter item title"></h5>
+									<h5><strong>Tokens</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" class="span3" id="tokens" placeholder="Enter token value"></h3>
+									<h5><strong>Availability</strong>&nbsp;&nbsp;&nbsp;<input type="text" class="span3" id="qty" placeholder="Enter available quantity"></h3>
+									<h5><strong>Tags</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" class="span3" id="tags" placeholder="Enter item tags"></h3>
+                                    <h5><strong>Description</strong></h3>
+                                    <textarea type="text" class="span6" cols="100" rows="10" id="descrpt" placeholder="Enter item description"></textarea>
+                                </address>     
+                            </div>
+                </div>
+                <button class="btn btn-inverse span2 pull-right" type="submit" id="confirm">SUBMIT</button> <br/><br/>                    
+  </div>
+                </section>
+</div>
+<script>
+    function sendAjax() {
+        var cdata = [{
+            title: $("input#title").val(),
+            cost: $("input#tokens").val(),
+            qty: $("input#qty").val(),
+            tags: $("input#tags").val(),
+            createdOn: Date.now(),
+            pic: "9.jpg",
+            description: $("textarea#descrpt").val(),
+        }];
+        
+        $.ajax({
+            contentType: 'application/json',
+            data: JSON.stringify(cdata),
+            url: '/create',
+            type: "POST",
+            success: function(result){
+                if (result == 1) {
+                    alert("Successfully Updated!");
+                    location.reload();
+                }
+                else if (result == 0){
+                    alert("Failed! Please provided valid information!");
+                    location.reload();
+                }
+                else if (result == -1){
+                    alert("The product is already exists. Please check again!");
+                    location.reload();
+                }
+            }
+        });
+    }
+    
+$("#confirm").on("click", function() {
+    if (confirm("Are you sure you want to do creation?") == true) {
+        sendAjax();
+    }
+});
+</script>
+<%- include footer.ejs %>
+
+                

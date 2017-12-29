@@ -1,0 +1,26 @@
+<%- include header.ejs %>
+	<section class="header_text sub">
+		<h4><span>Admin Panel</span></h4>
+	</section>
+			<section class="main-content">									
+                <div class="row" style="width: 50%; margin: 0 auto">
+                            <div style="width: 60%; margin: 0 auto">
+                            <a href="/record" class="btn span3" >Export Records</a>
+                            </div><br/><br/>
+                            <div style="width: 45%; margin: 0 auto">
+                            <select name="action" id="action" onChange="window.location.href=this.value">
+                              <option value="" selected="selected">--Action--</option>
+                              <option value="/createpage">Create</option>
+                              <option value="/retreivepage">Retrieve</option>
+                              <option value="/updatepage">Update</option>
+                              <option value="/deletepage">Delete</option>
+                            </select>
+                            </div>  
+
+                    
+  </div>
+                </section>
+</div>
+<%- include footer.ejs %>
+
+                

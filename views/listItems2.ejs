@@ -1,0 +1,63 @@
+<% // Compute the values needed by this template
+
+  let ascQuery, desQuery; // Query strings for listing items in different orders
+  let costascQuery, costdesQuery;
+
+  ascQuery = Query.stringify({page:pageData.currentPage, orderBy:1, order:1});
+  desQuery = Query.stringify({page:pageData.currentPage, orderBy:1, order:-1});
+  costascQuery = Query.stringify({page:pageData.currentPage, orderBy:0, order:1});
+  costdesQuery = Query.stringify({page:pageData.currentPage, orderBy:0, order:-1});
+%>
+
+<%- include header.ejs %>
+      <section class="main-content">
+        <div class="row">           
+          <div class="span12">  
+            <select name="Sorting" onChange="window.location.href=this.value">
+              <option value="#">--Sorting--</option>
+              <option value="?<%=ascQuery%>">Creation Time (ASC)</option>
+              <option value="?<%=desQuery%>">Creation Time (DSC)</option>
+              <option value="?<%=costascQuery%>">Redeem Cost (ASC)</option>
+              <option value="?<%=costdesQuery%>">Redeem Cost (DSC)</option>
+            </select>
+            <ul class="thumbnails listing-products">
+    <% for (let item of pageData.items) {
+        let q = Query.stringify({id: item._id});
+      %>
+        <li class="span3">
+          <div class="product-box">
+          <span class="sale_tag"></span>
+          <a href="/item?<%=q%>"><img alt="" src="/img/<%=item.pic%>"></a><br/>
+          <a href="/item?<%=q%>" class="title"><%=item.title%></a><br/>
+          <span class="category">Availability: <%=item.qty%></span><br/>
+          <span><%=item.createdOn.toLocaleString().split(' ')[0]%></span>
+          <p class="price"><%=item.cost%> tokens</p>
+        </li>
+    <% } %>
+    </ul>
+
+    <div class="pagination pagination-small pagination-centered">
+    <ul>
+    <li><a id="prev" href="#">Page</a></li>
+    <%
+       let params = JSON.parse(JSON.stringify(pageData.params)); // Clone the params object
+       for (let i = 0; i < pageData.pageCount; i++) {
+         params.page = i+1;
+         let q = Query.stringify(params);
+      %>
+      <li><a href="?<%=q%>"><%=params.page%></a></li>
+      &nbsp;
+    <% } %>
+    <li><a id="next" href="#">Page</a></li>
+    </ul>
+    </div>
+    </section>
+
+
+
+
+
+
+  </div>
+
+<%- include footer.ejs %>

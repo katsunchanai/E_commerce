@@ -1,0 +1,53 @@
+<%- include header.ejs %>
+	<section class="header_text sub">
+		<h4><span>Redeem History</span></h4>
+        <%
+        if (pageData.items.length==0) { 
+            %><h3><span>You haven't redeem any products. <br/>Gorgeous products are waiting for you to <a href="/listitems2">redeem</a>!</span></h3><% } 
+        %>
+	</section>
+      <section class="main-content">
+        <div class="row">           
+          <div class="span12">  
+            <ul class="thumbnails listing-products">
+    <% for (let item of pageData.items) {
+        let q = Query.stringify({id: item._id});
+      %>
+        <li class="span3">
+          <div class="product-box">
+          <span class="sale_tag"></span>
+          <a><img alt="" src="/img/<%=item.Pic%>"></a><br/>
+          <a class="title"><%=item.Title%></a><br/>
+          <span class="category"><%=item.ItemId%></span><br/>
+          <span class="category">Tokens:&nbsp;&nbsp;<%=item.Tokens%></span><br/>
+          <span class="category">Quantity:&nbsp;&nbsp;<%=item.Quantity%></span><br/>
+          <span class="category">Date:&nbsp;&nbsp;<%=item.RecordTime.toLocaleString().split(' ')[0]%></span>
+        </li>
+    <% } %>
+    </ul>
+
+    <div class="pagination pagination-small pagination-centered">
+    <ul>
+    <li><a id="prev" href="#">Page</a></li>
+    <%
+       let params = JSON.parse(JSON.stringify(pageData.params)); // Clone the params object
+       for (let i = 0; i < pageData.pageCount; i++) {
+         params.page = i+1;
+         let q = Query.stringify(params);
+      %>
+      <li><a href="?<%=q%>"><%=params.page%></a></li>
+      &nbsp;
+    <% } %>
+    <li><a id="next" href="#">Page</a></li>
+    </ul>
+    </div>
+    </section>
+
+
+
+
+
+
+  </div>
+
+<%- include footer.ejs %>

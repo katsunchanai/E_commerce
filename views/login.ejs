@@ -1,0 +1,87 @@
+<%# This is a EJS comment %>
+<%# "locals" is the object containing the properties passed from
+    res.render(). A property named 'username' can be referenced
+    in two ways
+    (A) As 'username' directly provided it is not undefined
+    (B) As 'locals.username'
+%>
+<%
+  locals.username = locals.user || "";
+  locals.loginMsg = locals.loginMsg || "";
+%>
+
+<%- include header.ejs %>
+      <section class="main-content">        
+        <div class="row" style="width: 30%; margin: 0 auto;">
+          <div class="span4">         
+            <h4 class="title"><span class="text"><strong>Login</strong> Form</span></h4>
+            <form action="/login" method="post">
+              <input type="hidden" name="next" value="/">
+              <fieldset>
+                <div class="control-group">
+                  <label class="control-label">Username</label>
+                  <div class="controls">
+                    <input type="text" placeholder="Enter your username" id="username" class="input-xlarge" name=uname value="<%= username %>">
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label">Username</label>
+                  <div class="controls">
+                    <input type="password" placeholder="Enter your password" id="password" class="input-xlarge" name=pword>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <input tabindex="3" class="btn btn-inverse large" type="submit" value="Sign into your account">
+                  <hr>
+                </div>
+              </fieldset>
+            </form>
+            <% if (loginMsg) { %>
+            <span style="color:red"><%= loginMsg %></span>
+            <% } %>
+          </div>
+          <!--<div class="span7">         
+            <h4 class="title"><span class="text"><strong>Register</strong> Form</span></h4>
+            <form action="/login" method="post" class="form-stacked">
+              <fieldset>
+                <div class="control-group">
+                  <label class="control-label">Username</label>
+                  <div class="controls">
+                    <input type="text" placeholder="Enter your username" class="input-xlarge">
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label">Email address:</label>
+                  <div class="controls">
+                    <input type="password" placeholder="Enter your email" class="input-xlarge">
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label">Password:</label>
+                  <div class="controls">
+                    <input type="password" placeholder="Enter your password" class="input-xlarge">
+                  </div>
+                </div>                                          
+                <div class="control-group">
+                  <p>Now that we know who you are. I'm not a mistake! In a comic, you know how you can tell who the arch-villain's going to be?</p>
+                </div>
+                <hr>
+                <div class="actions"><input tabindex="9" class="btn btn-inverse large" type="submit" value="Create your account"></div>
+              </fieldset>
+            </form>         
+          </div> -->       
+        </div>
+      </section>
+    </div>
+
+<script>
+$(window).load(function() {
+    if (<%=status%> == "-100"){
+        alert("Fuck you, you haven't login!");
+    }
+    if (<%=status%> == "-200"){
+        alert("Fuck you, you do not have authority to access Admin page!");
+    }
+});
+</script>
+<%- include footer.ejs %>
